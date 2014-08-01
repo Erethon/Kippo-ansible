@@ -1,0 +1,6 @@
+[database]
+db.host
+
+[kippo-hosts]
+kippo1.host
+kippo2.host

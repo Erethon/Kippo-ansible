@@ -1,0 +1,41 @@
+---
+
+- name: apt-get install mysql python-mysqldb
+  apt: name={{ item }} state=installed update_cache=true
+  with_items:
+  - mysql-server
+  - python-mysqldb
+
+
+- name: Copy my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf
+
+- name: Resstart mysql
+  service: name=mysql state=restarted
+#  notify:
+#  - Restart mysql
+
+- name: Create database user
+  mysql_user: name=kippo
+              password={{ db_password }}
+              priv=*.*:ALL
+              host=%
+              state=present
+
+- name: Copy schema
+  copy: src=mysql.sql dest=/tmp/mysql.sql
+
+- name: Create database
+  mysql_db: name=kippo-db
+            state=present
+            login_host={{ db_host }}
+            login_user=kippo
+            login_password={{ db_password }}
+
+- name: Import schema
+  mysql_db: name=kippo-db
+            state=import
+            target=/tmp/mysql.sql
+            login_host={{ db_host }}
+            login_user=kippo
+            login_password={{ db_password }}

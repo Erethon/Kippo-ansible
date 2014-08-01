@@ -1,0 +1,7 @@
+---
+# Database settings
+db_host: database_ip
+db_password: kippopassword
+
+# Kippo hostanme to use
+kippo_hostname: node42

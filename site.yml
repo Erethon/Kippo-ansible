@@ -1,0 +1,16 @@
+---
+# Written by Dionysis Grigoropoulos (Erethon) 2014 info@erethon.com
+# This is licenced under a two clause BSD License
+# Written as a proof of concept. For more  information checkout the README
+
+- name: Configure database node
+  hosts: database
+
+  roles:
+    - database
+
+- name: Configure Kippo nodes
+  hosts: kippo-hosts
+
+  roles:
+    - kippo

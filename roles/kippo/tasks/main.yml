@@ -1,0 +1,42 @@
+---
+ 
+- name: apt-get install dependencies
+  apt: name={{item}} state=latest update_cache=true
+  with_items:
+  - sudo
+  - python-crypto
+  - python-twisted
+  - git
+  - python-mysqldb
+
+- name: Create Kippo user
+  user: name=kippouser
+        comment="Kippo User"
+        shell=/bin/bash
+        home=/home/kippouser
+
+- name: Clone kippo repo
+  sudo: yes
+  sudo_user: kippouser
+  git: repo=https://github.com/desaster/kippo.git
+       dest=/home/kippouser/kippo
+
+- name: Change sshd_config
+  copy: src=sshd_config
+        dest=/etc/ssh/sshd_config
+  notify:
+  - Restart SSH
+
+- name: Copy kippo.cfg
+  sudo: yes
+  sudo_user: kippouser
+  template: src=kippo.cfg.j2
+            dest=/home/kippouser/kippo/kippo.cfg
+
+- name: Start Kippo
+  sudo: yes
+  sudo_user: kippouser
+  command: /home/kippouser/kippo/start.sh
+
+- name: Redirect port 2222 to 22
+  command: iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
