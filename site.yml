@@ -8,9 +8,13 @@
 
   roles:
     - database
+  tags:
+    - database
 
 - name: Configure Kippo nodes
   hosts: kippo-hosts
 
   roles:
+    - kippo
+  tags:
     - kippo
