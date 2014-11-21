@@ -2,6 +2,9 @@
 # Database settings
 db_host: database_ip
 db_password: kippopassword
+db_port: 3306
 
 # Kippo hostanme to use
 kippo_hostname: node42
+# Kippo repo to clone
+kippo_repo: "https://github.com/desaster/kippo.git"

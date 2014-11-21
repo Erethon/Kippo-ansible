@@ -6,15 +6,18 @@
   - mysql-server
   - python-mysqldb
 
-- name: Set mysql server address
-  lineinfile: dest=/etc/mysql/my.cnf
-              regexp=^bind-address
-              line="bind-address = {{ db_host }}"
+- name: Config mysql server
+  ini_file: dest=/etc/mysql/my.cnf
+            section={{ item.section }}
+            option={{ item.option }}
+            value={{ item.value }}
+  with_items:
+    - { section: "mysqld", option: "bind-address", value: "{{ db_host }}" }
+    - { section: "mysqld", option: "port", value: "{{ db_port}}" }
+
 
 - name: Resstart mysql
   service: name=mysql state=restarted
-#  notify:
-#  - Restart mysql
 
 - name: Create database user
   mysql_user: name=kippo

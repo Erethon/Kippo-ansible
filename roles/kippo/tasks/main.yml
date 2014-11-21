@@ -18,16 +18,19 @@
 - name: Clone kippo repo
   sudo: yes
   sudo_user: kippouser
-  git: repo=https://github.com/desaster/kippo.git
+  git: repo={{ kippo_repo }}
        dest=/home/kippouser/kippo
 
-- name: Change sshd_config
-  copy: src=sshd_config
-        dest=/etc/ssh/sshd_config
+- name: Change sshd port
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp=^Port
+              line="Port 22422"
   notify:
   - Restart SSH
 
 - command: cp /home/kippouser/kippo/kippo.cfg.dist /home/kippouser/kippo/kippo.cfg
+  sudo: yes
+  sudo_user: kippouser
 
 - name: Configure kippo.cfg
   ini_file: dest=/home/kippouser/kippo/kippo.cfg
@@ -42,7 +45,7 @@
     - { section: "database_mysql", option: "database", value: "kippo-db" }
     - { section: "database_mysql", option: "username", value: "kippo" }
     - { section: "database_mysql", option: "password", value: "{{ db_password }}" }
-    - { section: "database_mysql", option: "port", value: "3306" }
+    - { section: "database_mysql", option: "port", value: "{{ db_port }}" }
 
 - name: Start Kippo
   sudo: yes
