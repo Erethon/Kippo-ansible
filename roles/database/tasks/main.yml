@@ -6,9 +6,10 @@
   - mysql-server
   - python-mysqldb
 
-
-- name: Copy my.cnf
-  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf
+- name: Set mysql server address
+  lineinfile: dest=/etc/mysql/my.cnf
+              regexp=^bind-address
+              line="bind-address = {{ db_host }}"
 
 - name: Resstart mysql
   service: name=mysql state=restarted
