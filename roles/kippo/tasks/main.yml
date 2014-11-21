@@ -27,11 +27,22 @@
   notify:
   - Restart SSH
 
-- name: Copy kippo.cfg
-  sudo: yes
-  sudo_user: kippouser
-  template: src=kippo.cfg.j2
-            dest=/home/kippouser/kippo/kippo.cfg
+- command: cp /home/kippouser/kippo/kippo.cfg.dist /home/kippouser/kippo/kippo.cfg
+
+- name: Configure kippo.cfg
+  ini_file: dest=/home/kippouser/kippo/kippo.cfg
+            section={{ item.section}}
+            option={{ item.option }}
+            value={{ item.value }}
+            owner=kippouser
+            group=kippouser
+  with_items:
+    - { section: "honeypot", option: "hostname", value: "{{ kippo_hostname }}" }
+    - { section: "database_mysql", option: "host", value: "{{ db_host }}" }
+    - { section: "database_mysql", option: "database", value: "kippo-db" }
+    - { section: "database_mysql", option: "username", value: "kippo" }
+    - { section: "database_mysql", option: "password", value: "{{ db_password }}" }
+    - { section: "database_mysql", option: "port", value: "3306" }
 
 - name: Start Kippo
   sudo: yes
