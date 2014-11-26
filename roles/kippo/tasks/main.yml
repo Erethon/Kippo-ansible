@@ -1,7 +1,7 @@
 ---
  
 - name: apt-get install dependencies
-  apt: name={{item}} state=latest update_cache=true
+  apt: name={{item}} state=latest update_cache=yes
   with_items:
   - sudo
   - python-crypto
@@ -24,7 +24,7 @@
 - name: Change sshd port
   lineinfile: dest=/etc/ssh/sshd_config
               regexp=^Port
-              line="Port 22422"
+              line="Port {{ ssh_port }}"
   notify:
   - Restart SSH
 

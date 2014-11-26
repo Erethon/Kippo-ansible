@@ -4,15 +4,15 @@ Kippo Ansible Playbook
 This is an Ansible playbook to install [Kippo](
 https://github.com/desaster/kippo) on Debian hosts.
 
-The playbook will setup a node as a database server for kippo hosts to log
-incoming attacks and will also setup multiple kippo hosts.
+The playbook will setup a node as a database server for Kippo hosts to log
+incoming attacks and will also setup multiple Kippo hosts.
 
 Process:
 * setup a database server so all kippo hosts log to that server
 * create a `kippouser` account to run kippo
 * download the latest Kippo version from a git repo (desaster's by default)
-* configure kippo
-* change sshd port to 22422
+* configure Kippo
+* change sshd port to 22422 (it's a variable, so it's easy to change)
 * add an iptable rule to forward traffic from port 2222 to 22
 * run kippo
 

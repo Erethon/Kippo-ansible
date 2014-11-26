@@ -1,7 +1,7 @@
 ---
 
 - name: apt-get install mysql python-mysqldb
-  apt: name={{ item }} state=installed update_cache=true
+  apt: name={{ item }} state=installed update_cache=yes
   with_items:
   - mysql-server
   - python-mysqldb
