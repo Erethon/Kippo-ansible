@@ -8,6 +8,8 @@ db_port: 3306
 kippo_hostname: node42
 # Kippo repo to clone
 kippo_repo: "https://github.com/desaster/kippo.git"
+# Git commit/hash/branch name/tag name to checkout
+kippo_version: "HEAD"
 
 # SSH port to use on Kippo hosts
 ssh_port: 22422

@@ -20,6 +20,7 @@
   sudo_user: kippouser
   git: repo={{ kippo_repo }}
        dest=/home/kippouser/kippo
+       version={{ kippo_version }}
 
 - name: Change sshd port
   lineinfile: dest=/etc/ssh/sshd_config
